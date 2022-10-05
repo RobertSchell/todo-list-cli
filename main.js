@@ -9,32 +9,32 @@ console.log("[1] Create a to-do item");
 console.log("[2] Complete a to-do item");
 console.log("[3] Exit To-do List Application")
 */
-selectOption()
 //let option = Number(prompt('> '));//number casts user entry to 1,2,3 in case they enter "1", "2", "3"
+let option = selectOption();//variable dec/function together to replace previous 5 lines of code
 let toDoList = [];//assigns empty array to toDoList variable, this will contain toDoList items entered by user
 let statusArray = [];//assigns empty array to statusArray variable, this will contain complete/incomplete
 
 while(option !== 3){//while loop for actions if user enters 1, 2, or and invalid operation
     if(option === 1){//if user enters 1, proceed to next step in loop
-        console.log("\n~ Creating a new to-do item ~");//print statement
+        console.log("\n~ Creating a new to-do item ~");//print statement with line break prior
         console.log("What is this to-do item called?");//print statement
         
         //add to do item
         let addItem = prompt("> ");//assigns user prompt with >(enter your entry here), stores user entry in addItem variable
         while(addItem.length === 0){ //or "" (empty string)//if user enters invalid input (not 1,2, or 3)
             console.log("Invalid: Input cannot be empty. Try again.")//print this statement...
-            addItem = prompt("> ")//...and re-prompt for valid entry
+            addItem = prompt("> ");//...and re-prompt for valid entry
         }
         
         toDoList.push(addItem);//pushes user entry into [] toDoList variable created on line 13
-        statusArray.push(false);
+        statusArray.push(false);//in this case, incomplete by default
         
         displayList()//see displayList function at/near line 85-105
         
         //reprompt the user
-      selectOption()//see selectOption function at/near line 73-79 (reprompting user to get next step)
+      option = selectOption()//see selectOption function at/near line 73-79 (reprompting user to get next step)
     }else if(option === 2){//skip above if statement and perform the following actions if 2 is selected
-        if(toDoList.length !== 0){
+        if(toDoList.length !== 0){//if there are items in the to-do list
 
         
         console.log("\n~ Completing a new to-do item ~");//print statement
@@ -42,29 +42,29 @@ while(option !== 3){//while loop for actions if user enters 1, 2, or and invalid
         
         displayList();//run displayList function
 
-        let newStatus = Number(prompt("> "));
+        let newStatus = Number(prompt("> "));//assigns variable to account
 
         
-        while(isNaN(newStatus) || newStatus > statusArray.length || newStatus < 1){//error check to make sure user inputs number
+        while(isNaN(newStatus) || newStatus > statusArray.length || newStatus < 1){//error check to ensure user inputs valid number
             
             console.log("Please input a number that corresponds to an item in list: ");
-            newStatus = Number(prompt("> "));
+            newStatus = Number(prompt("> "));//re-prompt user for valid number
         }
 
-        statusArray[newStatus-1] = true;
-    }else{
+        statusArray[newStatus-1] = true;//-1 because we manipulated starting index number in displayList function
+    }else{//if there are no items to complete...
         console.log("Please add something to your to-do list before trying to complete an item.");
     }
 
         //complete an item
         displayList()//see displayList function at/near line 85-105
         //reprompt user
-        selectOption();//see selectOption function at/near line 73-79 (reprompting user to get next step)
+        option = selectOption();//see selectOption function at/near line 73-79 (reprompting user to get next step)
     }else{//if user does not selct option 1 || 2 || 3(selection of 3 is accounted for in line 49)
         console.log("\nInvalid Operation");//prints statement
 
         //reprompt user
-        selectOption();///see selectOption function at/near line 73-79 (reprompting user to get next step)
+        option = selectOption();///see selectOption function at/near line 73-79 (reprompting user to get next step)
     }
 }
 //Exiting Application//here is where we account for user entering option === 3//outside loop
@@ -74,8 +74,9 @@ function selectOption(){ //displays our list of options without having to rewrit
         console.log("\n~ Select an action ~");//logs following statements when program is initialized
         console.log("[1] Create a to-do item");
         console.log("[2] Complete a to-do item");
-        console.log("[3] Exit To-do List Application")
-        option = Number(prompt('> '));//number casts user input in case user enters "1", "2", "3"
+        console.log("[3] Exit To-do List Application");
+        //option = Number(prompt('> '));//number casts use if utilizing lines 7-12 (commented out section)
+        return Number(prompt("> "));
 }
 //THE FOLLOWING FUNCTION BASICALLY EQUATES TO (EXAMPLE IF YOU ADD THREE ITEMS TO YOUR TO-DO LIST)
 //You have 3 to-do item(s)
@@ -83,25 +84,22 @@ function selectOption(){ //displays our list of options without having to rewrit
 //2. laundry
 //3. walk dog
 function displayList(){ ///display our list without having to rewrite for loop every time
-    if(toDoList.length === 0){
-        console.log("Your to-do list is empty.")
-    }else{
-        console.log(`You have ${toDoList.length} to-do item(s)`)//you have "this many" to-do items
+    if(toDoList.length === 0){//if there are no items in to-do list...
+        console.log("Your to-do list is empty.");
+    }else{//if there items in your to-do list
+        console.log(`You have ${toDoList.length} to-do item(s)`);//you have "this many" to-do items
     }
-
-    for(let i = 0; i<toDoList.length; i++){//while index is less than toDoList length progress through index
+    
+    for(let i = 0; i<toDoList.length; i++){//while index is less than toDoList length progress through items
         let status = "";
 
-        if(statusArray[i] === false){
+        if(statusArray[i] === false){//in this case, incomplete...
             status = "[incomplete]";
-        }else if(statusArray[i] === true){
+        }else if(statusArray[i] === true){//in this case, complete
             status = "[complete]";
         }
-        
         console.log(`${i+1}. ${status} ${toDoList[i]}`);//prints consective numbers starting from 1. to items pushed to toDoList in line 27
     }                                        
-        
-
 }                                             
 /*
 TO DO LIST
@@ -150,6 +148,4 @@ display the to-do list to the user
     -display current items in the toDo list with their status
     -pick which toDo item to mark as complete and swap status from false to true
     -display the updated list right after
-
-
 */
